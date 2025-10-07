@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# Author: Raoul Comninos
 # pip install pillow send2trash
 import os
 import sys
