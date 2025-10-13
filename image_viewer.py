@@ -34,6 +34,7 @@ class ImageViewer:
         self.slideshow_paused = False
         self.slideshow_timer_id = None
         self.slideshow_interval = 3000  # 3 seconds
+        self.is_toolbar_hidden = False  # Track toolbar visibility state
         
         # Image display variables
         self.current_image = None
@@ -418,6 +419,7 @@ class ImageViewer:
         self.root.bind("<Prior>", lambda e: self.prev_image())         # Previous (Page Up)
         self.root.bind("f", lambda e: self.toggle_fullscreen())        # Fullscreen toggle
         self.root.bind("<F5>", lambda e: self.refresh_folder())        # Refresh folder
+        self.root.bind("<F9>", lambda e: self.toggle_toolbar())        # Toggle toolbar visibility
         self.root.bind("s", lambda e: self.save_current_zoom())        # Save view (S key)
         self.root.bind("r", lambda e: self.toggle_random())            # Random mode
         self.root.bind("q", lambda e: self.on_close())                 # Exit
@@ -2268,7 +2270,18 @@ class ImageViewer:
         # Redisplay image to adjust to new window size
         if self.current_image:
             self.root.after(100, self.apply_zoom_and_display)
-    
+
+    def toggle_toolbar(self):
+        """Toggle toolbar visibility (F9)"""
+        if self.is_toolbar_hidden:
+            # Show toolbar
+            self.control_panel.pack(side=tk.BOTTOM, fill=tk.X)
+            self.is_toolbar_hidden = False
+        else:
+            # Hide toolbar
+            self.control_panel.pack_forget()
+            self.is_toolbar_hidden = True
+
     def toggle_slideshow(self):
         """Toggle slideshow mode"""
         if not self.is_slideshow:
