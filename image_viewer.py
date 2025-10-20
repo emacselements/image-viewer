@@ -36,6 +36,10 @@ class ImageViewer:
         self.slideshow_interval = 3000  # 3 seconds
         self.is_toolbar_hidden = False  # Track toolbar visibility state
         
+        # Double-click detection
+        self.last_click_time = 0
+        self.double_click_threshold = 300  # milliseconds
+        
         # Image display variables
         self.current_image = None
         self.current_photo = None
@@ -134,6 +138,9 @@ class ImageViewer:
         
         self.fullscreen_button = tk.Button(button_frame1, text="Fullscreen (F/F11)", command=self.toggle_fullscreen)
         self.fullscreen_button.pack(side=tk.LEFT, padx=5, pady=2)
+        
+        self.hide_toolbar_button = tk.Button(button_frame1, text="👁️ Hide Toolbar (F9)", command=self.toggle_toolbar)
+        self.hide_toolbar_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         # Status label (feedback) - moved to row 1
         self.status_label = tk.Label(button_frame1, text="No folder selected")
@@ -465,6 +472,17 @@ class ImageViewer:
         if not self.current_image:
             return
             
+        # Check for double-click
+        current_time = time.time() * 1000  # milliseconds
+        if current_time - self.last_click_time < self.double_click_threshold:
+            # Double-click detected
+            self.toggle_toolbar()
+            self.last_click_time = 0  # Reset
+            return
+        
+        # Single click
+        self.last_click_time = current_time
+        
         if self.is_cropping:
             # Crop mode: start crop selection
             self.start_crop(event)
