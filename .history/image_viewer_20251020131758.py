@@ -35,10 +35,7 @@ class ImageViewer:
         self.slideshow_timer_id = None
         self.slideshow_interval = 3000  # 3 seconds
         self.is_toolbar_hidden = False  # Track toolbar visibility state
-        
-        # Double-click detection
-        self.last_click_time = 0
-        self.double_click_threshold = 300  # milliseconds
+        self.is_copying_or_moving = False  # Track if user is in copy/move operation
         
         # Image display variables
         self.current_image = None
@@ -139,7 +136,7 @@ class ImageViewer:
         self.fullscreen_button = tk.Button(button_frame1, text="Fullscreen (F/F11)", command=self.toggle_fullscreen)
         self.fullscreen_button.pack(side=tk.LEFT, padx=5, pady=2)
         
-        self.hide_toolbar_button = tk.Button(button_frame1, text="👁️ Hide Toolbar (F9)", command=self.toggle_toolbar)
+        self.hide_toolbar_button = tk.Button(button_frame1, text="👁️ Hide Toolbar", command=self.toggle_toolbar)
         self.hide_toolbar_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         # Status label (feedback) - moved to row 1
@@ -149,9 +146,6 @@ class ImageViewer:
         # Second row (zoom and mode buttons)
         button_frame2 = tk.Frame(self.control_panel)
         button_frame2.pack(fill=tk.X, side=tk.TOP, padx=5, pady=2)
-        
-        self.delete_button = tk.Button(button_frame2, text="Delete (D/Del)", command=self.delete_image)
-        self.delete_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         self.zoom_out_button = tk.Button(button_frame2, text="Zoom- (-)", command=self.zoom_out)
         self.zoom_out_button.pack(side=tk.LEFT, padx=2, pady=2)
@@ -196,9 +190,8 @@ class ImageViewer:
         button_frame3 = tk.Frame(self.control_panel)
         button_frame3.pack(fill=tk.X, side=tk.TOP, padx=5, pady=2)
         
-        # Add exit button at the beginning
-        self.exit_button = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
-        self.exit_button.pack(side=tk.LEFT, padx=5, pady=2)
+        self.delete_button = tk.Button(button_frame3, text="Delete (D/Del)", command=self.delete_image)
+        self.delete_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         self.move_button = tk.Button(button_frame3, text="Move (V)", command=self.move_image)
         self.move_button.pack(side=tk.LEFT, padx=5, pady=2)
@@ -223,9 +216,9 @@ class ImageViewer:
         self.remove_dupes_button = tk.Button(button_frame3, text="Remove Dupes", command=self.remove_duplicates)
         self.remove_dupes_button.pack(side=tk.LEFT, padx=5, pady=2)
         
-        # Add exit button at the end too
-        self.exit_button2 = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
-        self.exit_button2.pack(side=tk.LEFT, padx=5, pady=2)
+        # Add exit button
+        self.exit_button = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
+        self.exit_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         # Image list and current position
         self.image_files = []
@@ -476,17 +469,6 @@ class ImageViewer:
         if not self.current_image:
             return
             
-        # Check for double-click
-        current_time = time.time() * 1000  # milliseconds
-        if current_time - self.last_click_time < self.double_click_threshold:
-            # Double-click detected
-            self.toggle_toolbar()
-            self.last_click_time = 0  # Reset
-            return
-        
-        # Single click
-        self.last_click_time = current_time
-        
         if self.is_cropping:
             # Crop mode: start crop selection
             self.start_crop(event)

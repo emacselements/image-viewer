@@ -150,9 +150,6 @@ class ImageViewer:
         button_frame2 = tk.Frame(self.control_panel)
         button_frame2.pack(fill=tk.X, side=tk.TOP, padx=5, pady=2)
         
-        self.delete_button = tk.Button(button_frame2, text="Delete (D/Del)", command=self.delete_image)
-        self.delete_button.pack(side=tk.LEFT, padx=5, pady=2)
-        
         self.zoom_out_button = tk.Button(button_frame2, text="Zoom- (-)", command=self.zoom_out)
         self.zoom_out_button.pack(side=tk.LEFT, padx=2, pady=2)
         
@@ -200,6 +197,9 @@ class ImageViewer:
         self.exit_button = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
         self.exit_button.pack(side=tk.LEFT, padx=5, pady=2)
         
+        self.delete_button = tk.Button(button_frame3, text="Delete (D/Del)", command=self.delete_image)
+        self.delete_button.pack(side=tk.LEFT, padx=5, pady=2)
+        
         self.move_button = tk.Button(button_frame3, text="Move (V)", command=self.move_image)
         self.move_button.pack(side=tk.LEFT, padx=5, pady=2)
         
@@ -223,9 +223,9 @@ class ImageViewer:
         self.remove_dupes_button = tk.Button(button_frame3, text="Remove Dupes", command=self.remove_duplicates)
         self.remove_dupes_button.pack(side=tk.LEFT, padx=5, pady=2)
         
-        # Add exit button at the end too
-        self.exit_button2 = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
-        self.exit_button2.pack(side=tk.LEFT, padx=5, pady=2)
+        # Add exit button
+        self.exit_button = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
+        self.exit_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         # Image list and current position
         self.image_files = []

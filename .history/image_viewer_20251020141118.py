@@ -150,9 +150,6 @@ class ImageViewer:
         button_frame2 = tk.Frame(self.control_panel)
         button_frame2.pack(fill=tk.X, side=tk.TOP, padx=5, pady=2)
         
-        self.delete_button = tk.Button(button_frame2, text="Delete (D/Del)", command=self.delete_image)
-        self.delete_button.pack(side=tk.LEFT, padx=5, pady=2)
-        
         self.zoom_out_button = tk.Button(button_frame2, text="Zoom- (-)", command=self.zoom_out)
         self.zoom_out_button.pack(side=tk.LEFT, padx=2, pady=2)
         
@@ -199,6 +196,9 @@ class ImageViewer:
         # Add exit button at the beginning
         self.exit_button = tk.Button(button_frame3, text="Exit (Q)", command=self.on_close, bg="#ffcccc")
         self.exit_button.pack(side=tk.LEFT, padx=5, pady=2)
+        
+        self.delete_button = tk.Button(button_frame3, text="Delete (D/Del)", command=self.delete_image)
+        self.delete_button.pack(side=tk.LEFT, padx=5, pady=2)
         
         self.move_button = tk.Button(button_frame3, text="Move (V)", command=self.move_image)
         self.move_button.pack(side=tk.LEFT, padx=5, pady=2)
