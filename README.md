@@ -17,7 +17,7 @@ A powerful, user-friendly image viewer for Linux, written in Python with Tkinter
 - **Image Operations:** Delete (to trash), duplicate, copy, move, and remove duplicates (via `fdupes`).
 - **Folder Management:** Browse folders, history of recent folders, delete entire folder (with safety checks).
 - **Backgrounds:** Switch between white, gray, black, or checkered backgrounds for transparency.
-- **Customizable UI:** Fullscreen toggle, border toggle, status messages, and keyboard shortcuts for all actions.
+- **Customizable UI:** Fullscreen toggle, border toggle, toolbar hide/show, status messages, and keyboard shortcuts for all actions.
 - **Persistence:** Remembers last viewed image, zoom/pan per image, and folder/copy/move history.
 
 ## Requirements
@@ -67,6 +67,7 @@ python3 image_viewer.py /path/to/image.jpg
 	- Delete Folder: `Ctrl+Shift+Del`
 - **Other:**
 	- Fullscreen: `F` or `F11`
+	- Toggle Toolbar: `F9`
 	- Exit: `Q`
 	- Refresh: `F5`
 	- Toggle Border: `O`
